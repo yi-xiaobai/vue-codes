@@ -7,7 +7,7 @@
  */
 
 let uid = 0;
-class Wather {
+class Watcher {
   constructor() {
     this.id = ++uid;
   }
@@ -59,6 +59,7 @@ function queueWatcher(watcher) {
     queue.push(watcher);
   }
 
+  // 标记是否已经向 nextTick 传递了 flushSchedulerQueue 方法
   if (!waiting) {
     waiting = true;
     nextTick(flushSchedulerQueue);
@@ -78,13 +79,12 @@ function flushSchedulerQueue() {
 }
 
 (function () {
-  let watcher1 = new Wather();
-  let watcher2 = new Wather();
+  let watcher1 = new Watcher();
+  let watcher2 = new Watcher();
 
   watcher1.update();
   watcher1.update();
   watcher2.update();
-  
 
   /**
    * 输出结果：
