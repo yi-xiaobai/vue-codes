@@ -12,8 +12,8 @@ const sharedPropertyDefinition = {
 }
 
 function _proxy(target, sourceKey, key) {
-  // console.log('==>Get this', this);
   sharedPropertyDefinition.get = function GetterProxy() {
+    // 此处 this就是vue实例 sourceKey = _data  key = data中的属性
     return this[sourceKey][key]
   }
 
@@ -21,6 +21,7 @@ function _proxy(target, sourceKey, key) {
     this[sourceKey][key] = val
   }
 
+  // 访问this.xxx 就是访问 this._data.xxx
   Object.defineProperty(target, key, sharedPropertyDefinition)
 }
 
@@ -35,6 +36,7 @@ function initData(vm) {
   const keys = Object.keys(data)
   let i = keys.length
   while (i--) {
+    // 对data上的数据进行代理
     _proxy(vm, '_data', keys[i])
   }
 }
